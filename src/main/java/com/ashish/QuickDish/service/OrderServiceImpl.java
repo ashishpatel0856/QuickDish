@@ -13,6 +13,8 @@ import com.ashish.QuickDish.repository.OrderItemRepository;
 import com.ashish.QuickDish.repository.OrderRepository;
 import com.ashish.QuickDish.repository.RestaurantRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ import java.util.stream.Collectors;
 import static com.ashish.QuickDish.utils.AppUtils.getCurrentUser;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class OrderServiceImpl implements OrderService{
 
     private final OrderRepository orderRepository;
@@ -36,16 +40,8 @@ public class OrderServiceImpl implements OrderService{
     private final FoodRepository foodRepository;
     private final OrderItemRepository orderItemRepository;
 
-    private static final Logger log = Logger.getLogger(OrderServiceImpl.class.getName());
 
-    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, RestaurantRepository restaurantRepository, UserService userService, FoodRepository foodRepository, OrderItemRepository orderItemRepository) {
-        this.orderRepository = orderRepository;
-        this.restaurantRepository = restaurantRepository;
-        this.modelMapper = modelMapper;
-        this.userService = userService;
-        this.foodRepository = foodRepository;
-        this.orderItemRepository = orderItemRepository;
-    }
+
     @Override
     @Transactional
     public OrderResponseDto BookingMyOrders(OrderRequestDto orderRequestDto) {

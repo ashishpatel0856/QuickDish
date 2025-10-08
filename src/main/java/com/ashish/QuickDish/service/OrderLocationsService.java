@@ -3,9 +3,11 @@ package com.ashish.QuickDish.service;
 import com.ashish.QuickDish.Entity.*;
 import com.ashish.QuickDish.exceptions.ResourceNotFoundException;
 import com.ashish.QuickDish.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class OrderLocationsService {
 
     private final OrderAddressRepository orderAddressRepository;
@@ -15,16 +17,7 @@ public class OrderLocationsService {
     private final DeliveryRiderRepository deliveryRiderRepository;
     private final UserRepository userRepository;
 
-    public OrderLocationsService(OrderAddressRepository orderAddressRepository,
-                                 UserAddressRepository userAddressRepository, RestaurantRepository restaurantRepository,
-                                 DeliveryRiderRepository deliveryRiderRepository,
-                                 UserRepository userRepository) {
-        this.orderAddressRepository = orderAddressRepository;
-        this.userAddressRepository = userAddressRepository;
-        this.restaurantRepository = restaurantRepository;
-        this.deliveryRiderRepository = deliveryRiderRepository;
-        this.userRepository = userRepository;
-    }
+
     public OrderAddress placeOrder(Long userId, Long restaurantId, Long addressId) {
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new ResourceNotFoundException("UserId not found"));

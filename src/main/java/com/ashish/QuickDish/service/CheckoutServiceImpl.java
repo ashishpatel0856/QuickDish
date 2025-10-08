@@ -3,18 +3,17 @@ import com.stripe.model.checkout.Session;
 import com.ashish.QuickDish.Entity.Order;
 import com.ashish.QuickDish.repository.OrderRepository;
 import com.stripe.param.checkout.SessionCreateParams;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
 @Service
+@RequiredArgsConstructor
 public class CheckoutServiceImpl implements CheckoutService{
 
     private final OrderRepository orderRepository;
 
-    public CheckoutServiceImpl(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-    }
 
     @Override
     public String getCheckoutServiceSession(Order order, String successUrl, String failureUrl) {

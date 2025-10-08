@@ -50,17 +50,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiResponse<?>> handleAccessDeniedException(AccessDeniedException ex) {
-        ApiError apiError = new ApiError();
-        apiError.setStatus(HttpStatus.FORBIDDEN);
-        apiError.setMessage(ex.getMessage());
-//        ApiError apiError = ApiError.builder()
-//                .status(HttpStatus.FORBIDDEN)
-//                .message(ex.getMessage())
-//                .build();
+//        ApiError apiError = new ApiError();
+//        apiError.setStatus(HttpStatus.FORBIDDEN);
+//        apiError.setMessage(ex.getMessage());
+        ApiError apiError = ApiError.builder()
+                .status(HttpStatus.FORBIDDEN)
+                .message(ex.getMessage())
+                .build();
         return buildErrorResponseEntity(apiError);
     }
 
-//        @ExceptionHandler(Exception.class)
+        @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleInternalServerError(Exception exception){
 
             ApiError apiError = new ApiError();

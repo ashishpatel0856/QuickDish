@@ -5,6 +5,7 @@ import com.ashish.QuickDish.Entity.enums.Role;
 import com.ashish.QuickDish.dto.ProfileUpdateRequestDto;
 import com.ashish.QuickDish.exceptions.ResourceNotFoundException;
 import com.ashish.QuickDish.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,12 +16,10 @@ import java.util.Set;
 import static com.ashish.QuickDish.utils.AppUtils.getCurrentUser;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
 
     @Override

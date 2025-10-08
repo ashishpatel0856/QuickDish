@@ -5,10 +5,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Configuration
@@ -27,9 +29,21 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(csrfConfig -> csrfConfig.disable())
+                .cors(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionConfig -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
+
+                        .requestMatchers(
+                                "/api/v1/swagger-ui.html",
+                                "/api/v1/swagger-ui/**",
+                                "/api/v1/swagger-ui/index.html",
+                                "/api/v1/v3/api-docs/**",
+                                "/api/v1/swagger-resources/**",
+                                "/api/v1/webjars/**"
+                        ).permitAll()
+
+
                         .requestMatchers("/admin/**").hasRole("RESTAURANT_OWNER")
                         .requestMatchers("/orders/**").authenticated()
                         .requestMatchers("/users/**").authenticated()
@@ -53,4 +67,5 @@ public class WebSecurityConfig {
             handlerExceptionResolver.resolveException(request, response, null, accessDeniedException);
         };
     }
+
 }

@@ -7,23 +7,22 @@ import com.ashish.QuickDish.dto.UserAddressResponseDto;
 import com.ashish.QuickDish.exceptions.ResourceNotFoundException;
 import com.ashish.QuickDish.repository.UserAddressRepository;
 import com.ashish.QuickDish.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class UserAddressService {
 
     private final UserAddressRepository userAddressRepository;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
-    public UserAddressService(UserAddressRepository userAddressRepository, UserRepository userRepository, ModelMapper modelMapper) {
-        this.userAddressRepository = userAddressRepository;
-        this.userRepository = userRepository;
-        this.modelMapper = modelMapper;
-    }
     public UserAddressResponseDto addAddress(Long userId, UserAddressRequestDto request) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 

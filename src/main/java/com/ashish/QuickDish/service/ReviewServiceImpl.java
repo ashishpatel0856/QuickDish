@@ -10,6 +10,8 @@ import com.ashish.QuickDish.exceptions.UnAuthorisedException;
 import com.ashish.QuickDish.repository.RestaurantRepository;
 import com.ashish.QuickDish.repository.ReviewRepository;
 import com.ashish.QuickDish.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ import java.util.stream.Collectors;
 import static com.ashish.QuickDish.utils.AppUtils.getCurrentUser;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
@@ -28,15 +32,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final RestaurantRepository restaurantRepository;
     private final UserService userService;
 
-    private final static Logger log = Logger.getLogger(ReviewServiceImpl.class.getName());
 
-    public ReviewServiceImpl(ReviewRepository reviewRepository, UserRepository userRepository, ModelMapper modelMapper, RestaurantRepository restaurantRepository, UserService userService) {
-        this.reviewRepository = reviewRepository;
-        this.userRepository = userRepository;
-        this.modelMapper = modelMapper;
-        this.restaurantRepository = restaurantRepository;
-        this.userService = userService;
-    }
 
     @Override
     public ReviewResponseDto addToView(ReviewRequestDto reviewRequestDto) {

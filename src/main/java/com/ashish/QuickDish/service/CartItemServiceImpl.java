@@ -12,6 +12,7 @@ import com.ashish.QuickDish.repository.CartRepository;
 import com.ashish.QuickDish.repository.FoodRepository;
 import com.ashish.QuickDish.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 @Service
+@RequiredArgsConstructor
 public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
     private final FoodRepository foodRepository;
@@ -28,20 +30,6 @@ public class CartItemServiceImpl implements CartItemService {
     private final  UserService userService;
 
     private static final Logger log = Logger.getLogger(CartItemServiceImpl.class.getName());
-
-    public CartItemServiceImpl(CartItemRepository cartItemRepository,
-                               FoodRepository foodRepository,
-                               ModelMapper modelMapper,
-                               CartRepository cartRepository,
-                               UserRepository userRepository,
-                               UserService userService) {
-        this.cartItemRepository = cartItemRepository;
-        this.foodRepository = foodRepository;
-        this.modelMapper = modelMapper;
-        this.cartRepository = cartRepository;
-        this.userRepository = userRepository;
-        this.userService = userService;
-    }
 
     @Override
     @Transactional

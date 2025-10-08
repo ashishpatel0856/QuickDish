@@ -8,6 +8,8 @@ import com.ashish.QuickDish.exceptions.ResourceNotFoundException;
 import com.ashish.QuickDish.exceptions.UnAuthorisedException;
 import com.ashish.QuickDish.repository.RestaurantRepository;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,17 +22,14 @@ import java.util.stream.Collectors;
 import static com.ashish.QuickDish.utils.AppUtils.getCurrentUser;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final ModelMapper modelMapper;
     private final UserService userService;
-    private static final Logger log = LoggerFactory.getLogger(RestaurantServiceImpl.class);
 
-    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, ModelMapper modelMapper, UserService userService) {
-        this.restaurantRepository = restaurantRepository;
-        this.modelMapper = modelMapper;
-        this.userService = userService;
-    }
+
 
 
     @Override

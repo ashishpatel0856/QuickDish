@@ -4,6 +4,10 @@ import com.ashish.QuickDish.Entity.FoodItem;
 import com.ashish.QuickDish.dto.FoodItemDto;
 import com.ashish.QuickDish.exceptions.ResourceNotFoundException;
 import com.ashish.QuickDish.repository.FoodRepository;
+import jakarta.validation.constraints.Size;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.XSlf4j;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,16 +17,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class FoodServiceImpl implements FoodService {
     private final FoodRepository foodRepository;
     private final ModelMapper modelMapper;
 
-    private static final Logger log = LoggerFactory.getLogger(FoodServiceImpl.class);
 
-    public FoodServiceImpl(FoodRepository foodRepository, ModelMapper modelMapper) {
-        this.foodRepository = foodRepository;
-        this.modelMapper = modelMapper;
-    }
 
     @Override
     public FoodItemDto addNweFoodItem(FoodItemDto foodItemDto) {
