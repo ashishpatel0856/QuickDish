@@ -15,26 +15,33 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 		)
 )
 public class QuickDishApplication {
-	
+
 	public static void main(String[] args) {
 
 		Dotenv dotenv = Dotenv.configure()
-				.filename(".env") // default set hota h ".env"
+				.filename(".env") // default ".env"
 				.ignoreIfMalformed()
 				.ignoreIfMissing()
 				.load();
 
-		System.setProperty("STRIPE_SECRET_KEY", dotenv.get("STRIPE_SECRET_KEY"));
-		System.setProperty("STRIPE_WEBHOOK_SECRET", dotenv.get("STRIPE_WEBHOOK_SECRET"));
-		System.setProperty("SPRING_MAIL_USERNAME", dotenv.get("SPRING_MAIL_USERNAME"));
-		System.setProperty("SPRING_MAIL_PASSWORD", dotenv.get("SPRING_MAIL_PASSWORD"));
-		System.setProperty("GOOGLE_MAPS_API_KEY", dotenv.get("GOOGLE_MAPS_API_KEY"));
-		System.setProperty("JWT_SECRET_KEY", dotenv.get("JWT_SECRET_KEY"));
-		System.setProperty("USER_DB", dotenv.get("USER_DB"));
-		System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
-
-
+		// Safe helper method to set system properties only if not null
+		setSystemProperty("STRIPE_SECRET_KEY", dotenv.get("STRIPE_SECRET_KEY"));
+		setSystemProperty("STRIPE_WEBHOOK_SECRET", dotenv.get("STRIPE_WEBHOOK_SECRET"));
+		setSystemProperty("SPRING_MAIL_USERNAME", dotenv.get("SPRING_MAIL_USERNAME"));
+		setSystemProperty("SPRING_MAIL_PASSWORD", dotenv.get("SPRING_MAIL_PASSWORD"));
+		setSystemProperty("GOOGLE_MAPS_API_KEY", dotenv.get("GOOGLE_MAPS_API_KEY"));
+		setSystemProperty("JWT_SECRET_KEY", dotenv.get("JWT_SECRET_KEY"));
+		setSystemProperty("USER_DB", dotenv.get("USER_DB"));
+		setSystemProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
 
 		SpringApplication.run(QuickDishApplication.class, args);
+	}
+
+	private static void setSystemProperty(String key, String value) {
+		if (value != null && !value.isBlank()) {
+			System.setProperty(key, value);
+		} else {
+			System.out.println("⚠️ Environment variable '" + key + "' is missing or empty!");
+		}
 	}
 }
