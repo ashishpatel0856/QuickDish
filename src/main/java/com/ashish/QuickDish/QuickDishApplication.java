@@ -41,7 +41,7 @@ public class QuickDishApplication {
 		if (value != null && !value.isBlank()) {
 			System.setProperty(key, value);
 		} else {
-			System.out.println("⚠️ Environment variable '" + key + "' is missing or empty!");
+			System.out.println(" Environment variable '" + key + "' is missing or empty!");
 		}
 	}
 }
