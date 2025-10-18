@@ -27,22 +27,20 @@ public class WebSecurityConfig {
         this.handlerExceptionResolver = handlerExceptionResolver;
     }
 
-    // Register AuthenticationManager for AuthService
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    // Main Security Filter Chain
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for REST API
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless session
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class) // JWT filter
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        // Swagger UI and OpenAPI docs public
+                        // Swagger and auth endpoints public
                         .requestMatchers(
                                 "/api/v1/swagger-ui.html",
                                 "/api/v1/swagger-ui/**",
@@ -51,30 +49,29 @@ public class WebSecurityConfig {
                                 "/api/v1/webjars/**",
                                 "/api/v1/auth/**"
                         ).permitAll()
-                        // Admin endpoints
                         .requestMatchers("/admin/**").hasRole("RESTAURANT_OWNER")
-                        // User endpoints
                         .requestMatchers("/orders/**", "/users/**").authenticated()
-                        // Any other request
                         .anyRequest().permitAll()
                 )
-                .exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler())); // Custom access denied handling
+                .exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler()));
 
         return http.build();
     }
 
-    // Access Denied Handler
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         return (request, response, accessDeniedException) ->
                 handlerExceptionResolver.resolveException(request, response, null, accessDeniedException);
     }
 
-    // CORS configuration
     private UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("http://localhost:5173")); // Frontend URL
+        // Update frontend origins deployed environment
+        config.setAllowedOrigins(List.of(
+                "http://localhost:5173",
+                "https://swiggy-backend-x363.onrender.com"
+        ));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setExposedHeaders(List.of("Authorization"));
