@@ -40,7 +40,7 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        // Swagger and auth endpoints public
+                        // Swagger + OpenAPI docs
                         .requestMatchers(
                                 "/api/v1/swagger-ui.html",
                                 "/api/v1/swagger-ui/**",
@@ -49,8 +49,11 @@ public class WebSecurityConfig {
                                 "/api/v1/webjars/**",
                                 "/api/v1/auth/**"
                         ).permitAll()
-                        .requestMatchers("/admin/**").hasRole("RESTAURANT_OWNER")
-                        .requestMatchers("/orders/**", "/users/**").authenticated()
+                        // Admin endpoints
+                        .requestMatchers("/api/v1/admin/**").hasRole("RESTAURANT_OWNER")
+                        // User endpoints
+                        .requestMatchers("/api/v1/orders/**", "/api/v1/users/**").authenticated()
+                        // Any other requests
                         .anyRequest().permitAll()
                 )
                 .exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler()));
@@ -67,10 +70,11 @@ public class WebSecurityConfig {
     private UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        // Update frontend origins deployed environment
+        // Local + deployed backend + frontend origins
         config.setAllowedOrigins(List.of(
                 "http://localhost:5173",
-                "https://swiggy-backend-x363.onrender.com"
+                "https://swiggy-backend-x363.onrender.com",
+                "https://your-frontend-domain.com"
         ));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
