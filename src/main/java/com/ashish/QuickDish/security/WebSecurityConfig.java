@@ -42,10 +42,9 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Swagger + OpenAPI docs
                         .requestMatchers(
-                                "/api/v1/swagger-ui.html",
-                                "/api/v1/swagger-ui/**",
-                                "/api/v1/v3/api-docs/**",
-                                "/api/v1/swagger-resources/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
                                 "/api/v1/webjars/**",
                                 "/api/v1/auth/**"
                         ).permitAll()
