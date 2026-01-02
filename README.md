@@ -6,6 +6,7 @@
  - **User Signup & Login with Role based**
  - **JWT-based Authentication**
 - **Secure Password Encryption using BCrypt**
+- **reCaptcha verfications**
 - **SMTP-based Email OTP Verification**
 
 👥 Role-Based Access Control (RBAC)
