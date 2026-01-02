@@ -75,7 +75,7 @@ PLACED
 
 🌐 Deploy on Render : - **https://swiggy-backend-x363.onrender.com**
 
-📘 Swagger UI - **https://swiggy-backend-x363.onrender.com/api/v1/v3/swagger-ui.html**
+📘 Swagger UI - **https://swiggy-backend-x363.onrender.com/api/v1/swagger-ui.html**
 
 👨‍💻 For Connections
 - **Ashish Kumar
