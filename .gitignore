@@ -1,0 +1,44 @@
+# Java build
+HELP.md
+target/
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDEs
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+.idea
+*.iws
+*.iml
+*.ipr
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Build
+build/
+
+# VS Code
+.vscode/
+
+# Sensitive config (choose one)
+# Recommended:
+# src/main/resources/application-secret.properties
+
+# OR (if you must ignore the full file)
+# src/main/resources/application.properties
+
+# Ignore .env files to prevent committing secrets
+.env
+
+

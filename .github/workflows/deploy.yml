@@ -1,0 +1,95 @@
+name: Deploy QuickDish Backend to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: |
+          mvn clean package -DskipTests
+
+      - name: Deploy to EC2
+        env:
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          EC2_IP_ADDRESS: ${{ secrets.EC2_IP_ADDRESS }}
+          GIT_REPO: ${{ secrets.GIT_REPO }}
+        run: |
+          echo "$EC2_SSH_KEY" > fook-key.pem
+          chmod 400 fook-key.pem
+
+          ssh -o StrictHostKeyChecking=no -i fook-key.pem ubuntu@$EC2_IP_ADDRESS "export GIT_REPO='$GIT_REPO'; bash -s" << 'EOF'
+          set -e
+
+          # Install Git if missing
+          if ! command -v git >/dev/null 2>&1; then
+            sudo apt update
+            sudo apt install -y git
+          fi
+
+          # Install Java Development Kit (JDK 17) if missing
+          if ! command -v java >/dev/null 2>&1; then
+            sudo apt update
+            sudo apt install -y openjdk-17-jdk
+          fi
+
+          # Install Maven if missing
+          if ! command -v mvn >/dev/null 2>&1; then
+            sudo apt update
+            sudo apt install -y maven
+          fi
+
+          # Add GitHub to known hosts
+          mkdir -p ~/.ssh
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+          cd /home/ubuntu
+
+          # Clone repository if it doesn't exist
+          if [ ! -d "QuickDish" ]; then
+            git clone "$GIT_REPO" QuickDish
+          fi
+
+          cd /home/ubuntu/QuickDish
+
+          # Reset local changes to tracked files before pulling
+          git reset --hard HEAD
+
+          # Pull latest changes
+          git fetch origin
+          git checkout main
+          git pull origin main
+
+          # Build the Java backend on EC2
+          mvn clean package -DskipTests
+
+          # Restart using PM2
+          if pm2 describe QUICKDISH-BACKEND-PROD >/dev/null 2>&1; then
+            pm2 restart QUICKDISH-BACKEND-PROD --update-env
+          else
+            pm2 start target/QuickDish-0.0.1-SNAPSHOT.jar \
+              --name QUICKDISH-BACKEND-PROD \
+              --interpreter java
+          fi
+
+          pm2 save
+          EOF
+
+      - name: Cleanup
+        if: always()
+        run: rm -f fook-key.pem

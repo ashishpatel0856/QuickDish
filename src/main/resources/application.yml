@@ -1,0 +1,14 @@
+
+
+spring:
+  application:
+    name: QuickDish
+
+  cache:
+    type: caffeine
+
+groq:
+  api:
+    key: ${GROQ_API}
+    url: https://api.groq.com/openai/v1/chat/completions
+    model: llama-3.1-8b-instant

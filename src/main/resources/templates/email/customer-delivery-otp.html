@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Delivery OTP - QuickDish</title>
+</head>
+<body style="margin:0; padding:0; background:#f97316; font-family:Arial, Helvetica, sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f97316;">
+    <tr>
+        <td align="center" style="padding:20px;">
+
+            <!-- Main Container -->
+            <table width="600" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff; border-radius:10px; overflow:hidden;">
+
+                <!-- Header -->
+                <tr>
+                    <td align="center" style="background:#ea580c; padding:25px;">
+                        <img th:src="'cid:logo'" alt="QuickDish" width="60" height="60" style="display:block; margin-bottom:10px;">
+                        <h1 style="color:#ffffff; margin:0; font-size:24px;">QuickDish</h1>
+                        <p style="color:#ffd7c2; margin:5px 0 0;">Order On The Way</p>
+                    </td>
+                </tr>
+
+                <!-- Content -->
+                <tr>
+                    <td style="padding:30px; color:#333;">
+
+                        <p style="font-size:16px;">
+                            Hello <strong th:text="${customerName}">Customer</strong>,
+                        </p>
+
+                        <p style="font-size:14px; color:#555;">
+                            Great news! A rider has been assigned to your order. Save this OTP for delivery:
+                        </p>
+
+                        <!-- OTP BOX -->
+                        <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;">
+                            <tr>
+                                <td align="center" style="background:#fff4e6; border:2px solid #f97316; padding:25px; border-radius:6px;">
+                                    <p style="font-size:12px; color:#888; margin:0 0 10px 0; font-weight:bold; text-transform:uppercase;">DELIVERY OTP</p>
+                                    <p style="font-size:42px; font-weight:bold; color:#ea580c; letter-spacing:8px; margin:15px 0;"
+                                       th:text="${deliveryOtp}">
+                                        5678
+                                    </p>
+                                    <p style="font-size:14px; color:#888; margin:10px 0 0 0;">Share this with rider when they arrive</p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Rider Info -->
+                        <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0; background:#f3f4f6; border-radius:6px;">
+                            <tr>
+                                <td style="padding:15px;">
+                                    <p style="margin:5px 0; font-size:14px; color:#333;">
+                                        <strong>Rider:</strong> <span th:text="${riderName}">Rider Name</span>
+                                    </p>
+                                    <p style="margin:5px 0; font-size:14px; color:#333;">
+                                        <strong>Contact:</strong> <span th:text="${riderPhone}">Phone Number</span>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <p style="font-size:13px; color:#555;">
+                            The rider will ask for this OTP to complete delivery.
+                        </p>
+
+                        <p>
+                            Enjoy your meal!<br>
+                            <strong style="color:#ea580c;">QuickDish Team</strong>
+                        </p>
+
+                    </td>
+                </tr>
+
+                <!-- Footer -->
+                <tr>
+                    <td align="center" style="background:#f5f5f5; padding:15px; font-size:12px; color:#999;">
+                        <img th:src="'cid:logo'" width="30" height="30"><br>
+                        © 2026 QuickDish<br>
+                        India's fastest growing food delivery platform
+                    </td>
+                </tr>
+
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
