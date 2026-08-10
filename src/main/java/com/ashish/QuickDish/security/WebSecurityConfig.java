@@ -75,9 +75,7 @@ public class WebSecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.setAllowedOrigins(List.of(
-                "http://localhost:3000",
-                "https://swiggy-backend-x363.onrender.com",
-                "https://your-frontend-domain.com"
+                "http://localhost:3000,https://quickdish-app.vercel.app"
         ));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
